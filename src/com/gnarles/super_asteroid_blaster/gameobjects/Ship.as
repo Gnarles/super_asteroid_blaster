@@ -1,5 +1,6 @@
 package com.gnarles.super_asteroid_blaster.gameobjects 
 {
+	import com.gnarles.super_asteroid_blaster.Game;
 	import com.gnarles.super_asteroid_blaster.helpers.CachedSprite;
 	import flash.geom.Point;
 	
@@ -27,6 +28,29 @@ package com.gnarles.super_asteroid_blaster.gameobjects
 			y += speed.y;
 			speed.x *= friction;
 			speed.y *= friction;
+			
+			checkIfInGameBounds();
+		}
+		
+		private function checkIfInGameBounds():void
+		{
+			if (x + width <= 0)
+			{
+				x = Game.gameWidth - width;
+			}
+			else if (x >= Game.gameWidth)
+			{
+				x = 0;
+			}
+ 
+			if (y + height <= 0)
+			{
+				y = Game.gameHeight - height;
+			}
+			else if (y >= Game.gameHeight)
+			{
+				y = 0;
+			}
 		}
 		
 		public function thrust(forward:Boolean=true):void

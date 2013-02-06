@@ -28,7 +28,7 @@ package com.gnarles.super_asteroid_blaster
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			// entry point
-			game = new Game();
+			game = new Game(stage.stageWidth, stage.stageHeight);
 			stage.addChild(game);
 		}
 		

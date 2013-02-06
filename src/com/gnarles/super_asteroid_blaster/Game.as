@@ -13,12 +13,18 @@ package com.gnarles.super_asteroid_blaster
 	 */
 	public class Game extends Sprite 
 	{
+		public static var gameHeight:int;
+		public static var gameWidth:int;
+		
 		private var background:Sprite;
 		private var ship:Ship;
 		private var keyboardState:KeyboardState;
 		
-		public function Game() 
+		public function Game(width:int, height:int) 
 		{
+			gameWidth = width;
+			gameHeight = height;
+			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
@@ -31,12 +37,7 @@ package com.gnarles.super_asteroid_blaster
 			createBackground();
 			createShip();
 			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			
-			//Set up the game loop. The update function will
-			//be called every frame.
-			addEventListener(Event.ENTER_FRAME, update);
+			hookUpEvents();
 		}
 		
 		private function update(e:Event):void
@@ -90,6 +91,16 @@ package com.gnarles.super_asteroid_blaster
 			background.graphics.beginFill(0x000000);
 			background.graphics.drawRect(0,0,stage.stageWidth, stage.stageHeight);
 			addChildAt(background, 0);
+		}
+		
+		private function hookUpEvents():void
+		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+			
+			//Set up the game loop. The update function will
+			//be called every frame.
+			addEventListener(Event.ENTER_FRAME, update);
 		}
 	}
 }
