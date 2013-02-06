@@ -2,8 +2,10 @@ package com.gnarles.super_asteroid_blaster
 {
 	import com.gnarles.super_asteroid_blaster.gameobjects.Ship;
 	import com.gnarles.super_asteroid_blaster.helpers.Images;
+	import com.gnarles.super_asteroid_blaster.helpers.KeyboardState;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	
 	/**
 	 * ...
@@ -13,6 +15,7 @@ package com.gnarles.super_asteroid_blaster
 	{
 		private var background:Sprite;
 		private var ship:Ship;
+		private var keyboardState:KeyboardState;
 		
 		public function Game() 
 		{
@@ -23,8 +26,13 @@ package com.gnarles.super_asteroid_blaster
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			keyboardState = new KeyboardState();
+			
 			createBackground();
 			createShip();
+			
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			
 			//Set up the game loop. The update function will
 			//be called every frame.
@@ -33,7 +41,37 @@ package com.gnarles.super_asteroid_blaster
 		
 		private function update(e:Event):void
 		{
-			
+			if (ship.visible)
+			{
+				if (keyboardState.checkKeyDown(KeyboardState.UP))
+				{
+					ship.thrust(true);
+				}
+				if (keyboardState.checkKeyDown(KeyboardState.DOWN))
+				{
+					ship.thrust(false);
+				}
+				if (keyboardState.checkKeyDown(KeyboardState.LEFT))
+				{
+					ship.rotate(false);
+				}
+				if (keyboardState.checkKeyDown(KeyboardState.RIGHT))
+				{
+					ship.rotate(true);
+				}
+				
+				ship.update();
+			}
+		}
+		
+		private function onKeyDown(e:KeyboardEvent):void
+		{
+			keyboardState.setKeyDown(e.keyCode);
+		}
+		
+		private function onKeyUp(e:KeyboardEvent):void
+		{
+			keyboardState.setKeyUp(e.keyCode);
 		}
 		
 		private function createShip():void
