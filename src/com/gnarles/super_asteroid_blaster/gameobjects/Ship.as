@@ -10,10 +10,14 @@ package com.gnarles.super_asteroid_blaster.gameobjects
 	 */
 	public class Ship extends CachedSprite 
 	{
-		public var speed:Point;
-		private var speed_multi:Number = 0.5;
+		private var speed:Point;
+		public var fireDelay:int = 200;
+		public var lastFired:int = 0;
+		
+		private var speedMultiplier:Number = 0.5;
 		private var friction:Number = 0.95;
 		private var rotationAmount:int = 10;
+		
 		
 		public function Ship(image:Class) 
 		{
@@ -55,16 +59,16 @@ package com.gnarles.super_asteroid_blaster.gameobjects
 		
 		public function thrust(forward:Boolean=true):void
 		{
-			var angleInRadians:Number = rotation * (Math.PI / 180.0);
+			var angleInRadians:Number = getAngleInRadians();
 			if (forward)
 			{
-				speed.x += speed_multi * Math.sin(angleInRadians);
-				speed.y -= speed_multi * Math.cos(angleInRadians);
+				speed.x += speedMultiplier * Math.sin(angleInRadians);
+				speed.y -= speedMultiplier * Math.cos(angleInRadians);
 			}
 			else
 			{
-				speed.x -= speed_multi * Math.sin(angleInRadians);
-				speed.y += speed_multi * Math.cos(angleInRadians);
+				speed.x -= speedMultiplier * Math.sin(angleInRadians);
+				speed.y += speedMultiplier * Math.cos(angleInRadians);
 			}
 		}
 		
@@ -78,6 +82,11 @@ package com.gnarles.super_asteroid_blaster.gameobjects
 			{
 				this.rotation -= rotationAmount;
 			}
+		}
+		
+		public function getAngleInRadians():Number
+		{
+			return rotation * (Math.PI / 180.0);
 		}
 	}
 }
